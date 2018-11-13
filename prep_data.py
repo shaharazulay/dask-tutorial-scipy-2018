@@ -4,7 +4,7 @@ import os
 import numpy as np
 import pandas as pd
 import tarfile
-import urllib.request
+import urllib
 import zipfile
 from glob import glob
 
@@ -20,20 +20,20 @@ def flights():
         os.mkdir(data_dir)
 
     if not os.path.exists(flights_raw):
-        print("- Downloading NYC Flights dataset... ", end='', flush=True)
+        print("- Downloading NYC Flights dataset... ", end='')
         url = "https://storage.googleapis.com/dask-tutorial-data/nycflights.tar.gz"
-        urllib.request.urlretrieve(url, flights_raw)
-        print("done", flush=True)
+        urllib.urlretrieve(url, flights_raw)
+        print("done")
 
     if not os.path.exists(flightdir):
         print("- Extracting flight data... ", end='', flush=True)
         tar_path = os.path.join('data', 'nycflights.tar.gz')
         with tarfile.open(tar_path, mode='r:gz') as flights:
             flights.extractall('data/')
-        print("done", flush=True)
+        print("done")
 
     if not os.path.exists(jsondir):
-        print("- Creating json data... ", end='', flush=True)
+        print("- Creating json data... ", end='')
         os.mkdir(jsondir)
         for path in glob(os.path.join('data', 'nycflights', '*.csv')):
             prefix = os.path.splitext(os.path.basename(path))[0]
@@ -41,7 +41,7 @@ def flights():
             df = pd.read_csv(path).iloc[:10000]
             df.to_json(os.path.join('data', 'flightjson', prefix + '.json'),
                        orient='records', lines=True)
-        print("done", flush=True)
+        print("done")
 
     print("** Finished! **")
 
@@ -66,7 +66,7 @@ def weather(growth=3200):
 
     if not os.path.exists(weather_zip):
         print("Downloading weather data.")
-        urllib.request.urlretrieve(url, weather_zip)
+        urllib.urlretrieve(url, weather_zip)
 
     if not os.path.exists(weather_small):
         print("Extracting to {}".format(weather_small))
