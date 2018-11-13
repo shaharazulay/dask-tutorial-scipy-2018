@@ -26,7 +26,7 @@ def flights():
         print("done")
 
     if not os.path.exists(flightdir):
-        print("- Extracting flight data... ", end='', flush=True)
+        print("- Extracting flight data... ", end='')
         tar_path = os.path.join('data', 'nycflights.tar.gz')
         with tarfile.open(tar_path, mode='r:gz') as flights:
             flights.extractall('data/')
